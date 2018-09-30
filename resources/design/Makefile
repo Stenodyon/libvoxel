@@ -1,0 +1,2 @@
+default:
+	mptopdf api.mp

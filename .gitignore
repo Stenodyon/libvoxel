@@ -1,0 +1,6 @@
+build/
+libvoxel.so
+
+resources/design/*
+!resources/design/Makefile
+!resources/design/api.mp

@@ -62,6 +62,8 @@ beginfig(1);
     %       ErodeNode, SquishNode, CubeNode, SphereNode, CylinderNode,
     %       NoiseNode, FlipNode, SymmetryNode, DisplaceNode, FilterNode,
     %       EdgeDetectNode, TranslateNode, RotateNode, ScaleNode, OverlayNode
+    %       BufferNode -> Memoizes the querried blocks instead of re-computing
+    %                       them
 
     leftToRight.top(10)(Point, Node);
     leftToRight(40)(Node, Node_Perlin);

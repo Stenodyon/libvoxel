@@ -90,6 +90,7 @@ beginfig(1);
         "+Graph()",
         "+add<NodeType, Args...>(Args... && args) : NodeType *",
         "+reset_buffers(void) : void",
+        "+clear() : void",
         "+static FromFile(filename: std::string) : Graph"
     );
 
@@ -149,18 +150,21 @@ beginfig(1);
         "+indices: std::vector<int>"
     )(
         "+Mesh(vertices: std::vector<Vector>, normals: std::vector<Vector>, indices: std::vector<int>)",
-        "+static FromGraph(root: Node<bool>, area: BoxArea) : Mesh"
+        "+static FromNode(root: Node<bool>*, area: BoxArea) : Mesh"
     );
 
     Class.TopLevel("TopLevel")()(
-        "+export_obj(root: Node<?>, area: BoxArea, filename: std::string) : void",
-        "+export_vox(root: Node<?>, area: BoxArea, filename: std::string) : void"
+        "+export_obj(root: Node<?>*, area: BoxArea, filename: std::string) : void",
+        "+export_vox(root: Node<?>*, area: BoxArea, filename: std::string) : void"
     );
     TopLevel.info.foreColor := (.9, .7, .7);
 
     topToBottom.right(10)(
         Node,
         Vec,
+        BoxArea
+    );
+    topToBottom(10)(
         BoxArea,
         Mesh
     );

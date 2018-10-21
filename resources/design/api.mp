@@ -162,8 +162,7 @@ beginfig(1);
         Node,
         Vec,
         BoxArea,
-        Mesh,
-        TopLevel
+        Mesh
     );
     leftToRight(40)(
         BoxAreaIterator,
@@ -174,7 +173,12 @@ beginfig(1);
         Vector
     );
     leftToRight.top(40)(Point, Vec);
-    topToBottom(40)(Graph, GraphNode, Node);
+    topToBottom(40)(
+        TopLevel,
+        Graph,
+        GraphNode,
+        Node
+    );
     leftToRight(40)(Node, Node_Perlin);
     topToBottom.left(10)(
         Node_Perlin,

@@ -45,14 +45,9 @@ beginfig(1);
     Point.info.iMethodStack.bottom := 0;
 
     Class.Vector("Vector : Vec3<double>")()(
-        "normalize() : Vector &",
-        "normalized() const : Vector"
+        "+normalize() : Vector &",
+        "+normalized() const : Vector"
     );
-    %classStereotypes.Vector("<<typedef>>");
-    %Vector.info.iAttributeStack.top := 0;
-    %Vector.info.iAttributeStack.bottom := 0;
-    %Vector.info.iMethodStack.top := 0;
-    %Vector.info.iMethodStack.bottom := 0;
 
     Class.BoxArea("BoxArea")(
         "+class iterator",

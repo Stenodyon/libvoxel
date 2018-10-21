@@ -90,13 +90,13 @@ beginfig(1);
         "+Graph()",
         "+add<NodeType, Args...>(Args... && args) : NodeType *",
         "+reset_buffers(void) : void",
-        "+static FromFile(filename : std::string) : Graph"
+        "+static FromFile(filename: std::string) : Graph"
     );
 
     Interface.GraphNode("GraphNode")();
 
     Interface.Node("Node<VoxelType> : GraphNode")(
-        "+virtual get_voxel(pos : const Point &) = 0 : VoxelType");
+        "+virtual get_voxel(pos: const Point &) = 0 : VoxelType");
 
     Class.Node_Perlin("PerlinNode : Node<int>")()(
         "-PerlinNode(seed: int, octave: int)");

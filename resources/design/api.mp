@@ -90,7 +90,7 @@ beginfig(1);
         "+Graph()",
         "+add<NodeType, Args...>(Args... && args) : NodeType *",
         "+reset_buffers(void) : void",
-        "+clear() : void",
+        "+clear(void) : void",
         "+static FromFile(filename: std::string) : Graph"
     );
 

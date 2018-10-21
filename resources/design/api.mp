@@ -10,41 +10,98 @@ metauml_defaultFontBoldOblique  := "fvmbo8r";
 
 input metauml;
 beginfig(1);
-    Class.Point("Point")(
-        "+x: int",
-        "+y: int",
-        "+z: int")(
-        "+operator+(other: const Point &) const : Point",
-        "+operator+=(other: const Point &) : Point &",
-        "+operator-() : Point &",
-        "+operator-(other: const Point &) const : Point",
-        "+operator-=(other: const Point &) : Point &",
-        "+operator*(value: int) const : Point",
-        "+operator*=(value: int) : Point &",
-        "+operator*(value: float) const : Point",
-        "+operator*=(value: float) : Point &",
-        "+operator*(value: double) const : Point",
-        "+operator*=(value: double) : Point &",
-        "+operator/(value: int) const : Point",
-        "+operator/=(value: int) : Point &",
-        "+operator/(value: float) const : Point",
-        "+operator/=(value: float) : Point &",
-        "+operator/(value: double) const : Point",
-        "+operator/=(value: double) : Point &"
-        );
+    Class.Vec("Vec3<T>")(
+        "+x: T",
+        "+y: T",
+        "+z: T")(
+        "+operator+(other: const Vec3<T> &) const : Vec3<T>",
+        "+operator+=(other: const Vec3<T> &) : Vec3<T> &",
+        "+operator-() : Vec3<T> &",
+        "+operator-(other: const Vec3<T> &) const : Vec3<T>",
+        "+operator-=(other: const Vec3<T> &) : Vec3<T> &",
+        "+operator*(value: int) const : Vec3<T>",
+        "+operator*=(value: int) : Vec3<T> &",
+        "+operator*(value: float) const : Vec3<T>",
+        "+operator*=(value: float) : Vec3<T> &",
+        "+operator*(value: double) const : Vec3<T>",
+        "+operator*=(value: double) : Vec3<T> &",
+        "+operator/(value: int) const : Vec3<T>",
+        "+operator/=(value: int) : Vec3<T> &",
+        "+operator/(value: float) const : Vec3<T>",
+        "+operator/=(value: float) : Vec3<T> &",
+        "+operator/(value: double) const : Vec3<T>",
+        "+operator/=(value: double) : Vec3<T> &",
+        "+dot(other: const Point &) const : T",
+        "+cross(other: const Point &) const : Vec3<T>",
+        "+norm() const : double",
+    );
+    classStereotypes.Vec("<<struct>>");
+
+    Class.Point("Point = Vec3<int>")()();
+    classStereotypes.Point("<<typedef>>");
+    Point.info.iAttributeStack.top := 0;
+    Point.info.iAttributeStack.bottom := 0;
+    Point.info.iMethodStack.top := 0;
+    Point.info.iMethodStack.bottom := 0;
+
+    Class.Vector("Vector : Vec3<double>")()(
+        "normalize() : Vector &",
+        "normalized() const : Vector"
+    );
+    %classStereotypes.Vector("<<typedef>>");
+    %Vector.info.iAttributeStack.top := 0;
+    %Vector.info.iAttributeStack.bottom := 0;
+    %Vector.info.iMethodStack.top := 0;
+    %Vector.info.iMethodStack.bottom := 0;
+
+    Class.BoxArea("BoxArea")(
+        "+class iterator",
+        "-lower: Point",
+        "-upper: Point"
+    )(
+        "+BoxArea(corner1: const Point &, corner2: const Point &)",
+        "+begin() : iterator",
+        "+end() : iterator",
+        "+lower_corner() const : Point",
+        "+upper_corner() const : Point",
+        "+size_x() const : int",
+        "+size_y() const : int",
+        "+size_z() const : int",
+        "+inside(size: int) const : BoxArea",
+        "+outside(size: int) const : BoxArea",
+        "+face_xl() const : BoxArea",
+        "+face_xu() const : BoxArea",
+        "+face_yl() const : BoxArea",
+        "+face_yu() const : BoxArea",
+        "+face_zl() const : BoxArea",
+        "+face_zu() const : BoxArea"
+    );
+
+    Class.BoxAreaIterator("BoxArea::iterator : std::iterator<std::input_iterator_tag, Point, Point, Point*, Point>")(
+        "-start: Point",
+        "-end: Point",
+        "-current: Point"
+    )(
+        "+operator++() : BoxArea::iterator &",
+        "+operator==(other : const BoxArea::iterator &) const : bool",
+        "+operator!=(other : const BoxArea::iterator &) const : bool",
+        "+operator*() const : Point"
+    );
 
     Class.Graph("Graph")(
         "-nodes: std::vector<std::unique_ptr<GraphNode>>",
         "-buffers: std::vector<BufferNode*>"
     )(
+        "+Graph()",
         "+add<NodeType, Args...>(Args... && args) : NodeType *",
-        "+reset_buffers(void) : void"
+        "+reset_buffers(void) : void",
+        "+static FromFile(filename : std::string) : Graph"
     );
 
     Interface.GraphNode("GraphNode")();
 
     Interface.Node("Node<VoxelType> : GraphNode")(
-        "+get_voxel(pos : const Point &) : VoxelType");
+        "+virtual get_voxel(pos : const Point &) = 0 : VoxelType");
 
     Class.Node_Perlin("PerlinNode : Node<int>")()(
         "-PerlinNode(seed: int, octave: int)");
@@ -88,17 +145,40 @@ beginfig(1);
         "RotateNode",
         "ScaleNode",
         "OverlayNode",
-        "BufferNode -> Memoizes the querried voxels instead of re-computing them");
-
-    Interface.Exporter("Exporter")(
-        "+export(root: BaseNode*, c1: const Point &, c2: const Point &, filename: std::string) : void"
+        "BufferNode -> Memoizes the querried voxels instead of re-computing them"
     );
 
-    Class.OBJExporter("OBJExporter : Exporter")()();
-    Class.VoxExporter("VoxExporter : Exporter")()();
+    Class.Mesh("Mesh")(
+        "+vertices: std::vector<Vector>",
+        "+normals: std::vector<Vector>",
+        "+indices: std::vector<int>"
+    )(
+        "+Mesh(vertices: std::vector<Vector>, normals: std::vector<Vector>, indices: std::vector<int>)",
+        "+static FromGraph(root: Node<bool>, area: BoxArea) : Mesh"
+    );
 
-    %leftToRight.top(10)(Point, Graph);
-    topToBottom.right(40)(Node, Point);
+    Class.TopLevel("TopLevel")()(
+        "+export_obj(root: Node<?>, area: BoxArea, filename: std::string) : void",
+        "+export_vox(root: Node<?>, area: BoxArea, filename: std::string) : void"
+    );
+    TopLevel.info.foreColor := (.9, .7, .7);
+
+    topToBottom.right(10)(
+        Node,
+        Vec,
+        BoxArea,
+        Mesh,
+        TopLevel
+    );
+    leftToRight(40)(
+        BoxAreaIterator,
+        BoxArea
+    );
+    topToBottom.right(10)(
+        Point,
+        Vector
+    );
+    leftToRight.top(40)(Point, Vec);
     topToBottom(40)(Graph, GraphNode, Node);
     leftToRight(40)(Node, Node_Perlin);
     topToBottom.left(10)(
@@ -109,15 +189,12 @@ beginfig(1);
         Node_Mask,
         Dots);
 
-    Exporter.ne = Dots.sw - (40, 40);
-    leftToRight(40)(Exporter, OBJExporter);
-    topToBottom(10)(
-        OBJExporter,
-        VoxExporter
-    );
-
     Package.voxelns("voxel")(
+        Vec,
         Point,
+        Vector,
+        BoxArea,
+        BoxAreaIterator,
         Graph,
         GraphNode,
         Node,
@@ -127,9 +204,8 @@ beginfig(1);
         Node_OR,
         Node_Mask,
         Dots,
-        Exporter,
-        OBJExporter,
-        VoxExporter
+        Mesh,
+        TopLevel
     );
     voxelns.info.foreColor := white;
 
@@ -145,7 +221,8 @@ beginfig(1);
     link(inheritance)(pathStepX(Node_Mask.w, Node.e, -20));
     link(inheritance)(pathStepX(Dots.w, Node.e, -20));
 
-    link(inheritance)(pathStepX(OBJExporter.w, Exporter.e, -20));
-    link(inheritance)(pathStepX(VoxExporter.w, Exporter.e, -20));
+    link(dependency)(pathHorizontal(Point.e, Vec.left));
+    link(inheritance)(pathHorizontal(Vector.e, Vec.left));
+    link(composition)(pathHorizontal(BoxAreaIterator.e, BoxArea.left));
 endfig;
 end

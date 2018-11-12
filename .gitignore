@@ -1,5 +1,6 @@
 build/
 libvoxel.so
+libvoxel.so.test
 
 resources/design/*
 !resources/design/Makefile

@@ -1,15 +1,11 @@
-NAME=libvoxel.so
+NAME:=libvoxel.so
 
-SRC_DIR=src/
-BUILD_DIR=build/
-TESTS_DIR=tests/
+SRC_DIR:=src/
+BUILD_DIR:=build/
+TESTS_DIR:=tests/
 
-FLAGS=-std=c++17 -Wall -Wextra -Wno-sign-compare \
-      -I./include/
+FLAGS=-std=c++17 -Wall -Wextra -Wno-sign-compare -I./include/
 LIBS=
-
-CXX=g++-7.3
-CC=gcc-7.3
 
 # -----------------------------------------------------
 
@@ -46,7 +42,7 @@ profile: debug
 
 test: FLAGS+= -g -D _TESTING -I./lib/catch/ `pkg-config --cflags check`
 test: LIBS+= `pkg-config --libs check`
-test: $(BIN_TEST)
+test: $(BIN_DEBUG) $(BIN_TEST)
 	./$(BIN_TEST)
 
 clean:
@@ -56,25 +52,25 @@ clean:
 .PHONY: release debug profile test clean
 
 $(BIN): $(OBJ)
-	$(CXX) $(FLAGS) $(OBJ) $(LIBS) -o $(BIN)
+	ar rvs $(BIN) $(OBJ)
 	rm -f $(INTERMEDIATES)
 
 $(BIN_DEBUG): $(OBJ)
-	$(CXX) $(FLAGS) $(OBJ) $(LIBS) -o $(BIN_DEBUG)
+	ar rvs $(BIN) $(OBJ)
 	rm -f $(INTERMEDIATES)
 
-$(BIN_TEST): $(OBJ) $(TEST_OBJ)
-	$(CXX) $(FLAGS) $(OBJ) $(TEST_OBJ) $(LIBS) -o $(BIN_TEST)
+$(BIN_TEST): $(TEST_OBJ)
+	$(CXX) $(FLAGS) $(TEST_OBJ) $(LIBS) -L. -lvoxel -o $(BIN_TEST)
 	rm -f $(INTERMEDIATES)
 
 $(BUILD_DIR)%.o: $(SRC_DIR)%.cpp
 	@mkdir -p $(dir $@)
 	@mkdir -p $(dir $@).d
-	$(CC) -c $< $(FLAGS) -o $@
+	$(CXX) -c $< $(FLAGS) -o $@
 
 $(BUILD_DIR)tests/%.o: $(TESTS_DIR)%.cpp
 	@mkdir -p $(dir $@)
 	@mkdir -p $(dir $@).d
-	$(CC) -c $< $(FLAGS) -I./src -o $@
+	$(CXX) -c $< $(FLAGS) -I./src -o $@
 
 include $(shell find $(DEP_DIR) -type f -name '*.d')

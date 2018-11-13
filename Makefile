@@ -40,9 +40,9 @@ debug: $(BIN_DEBUG)
 profile: FLAGS+= -pg
 profile: debug
 
-test: FLAGS+= -g -D _TESTING -I./lib/catch/ `pkg-config --cflags check`
-test: LIBS+= `pkg-config --libs check`
-test: $(BIN_DEBUG) $(BIN_TEST)
+test: FLAGS+= -g -D _TESTING -I./tests/ `pkg-config --cflags gtest`
+test: LIBS+= `pkg-config --libs gtest`
+test: $(BIN_TEST)
 	./$(BIN_TEST)
 
 clean:
@@ -68,7 +68,7 @@ $(BUILD_DIR)%.o: $(SRC_DIR)%.cpp
 	@mkdir -p $(dir $@).d
 	$(CXX) -c $< $(FLAGS) -o $@
 
-$(BUILD_DIR)tests/%.o: $(TESTS_DIR)%.cpp
+$(BUILD_DIR)tests/%.o: $(TESTS_DIR)%.cpp $(BIN)
 	@mkdir -p $(dir $@)
 	@mkdir -p $(dir $@).d
 	$(CXX) -c $< $(FLAGS) -I./src -o $@

@@ -117,9 +117,10 @@ beginfig(1);
         "-ORNode(lhs: Node<bool>*, rhs: Node<bool>*)");
 
     Class.Node_Mask("MaskNode<T> : Node<T>")(
+        "-default_value: T",
         "-input: Node<T>*",
         "-mask: Node<bool>*")(
-        "-MaskNode(input: Node<T>*, mask: Node<bool>*)");
+        "-MaskNode(input: Node<T>*, mask: Node<bool>*, default_value: T)");
 
     Note.Dots("SolidNode",
         "MultiplyNode",

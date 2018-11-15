@@ -84,3 +84,46 @@ BoxArea BoxArea::face_zu() const
     face_lower[2] = upper[2];
     return BoxArea{face_lower, upper};
 }
+
+// ============================================================================
+
+Point BoxArea::iterator::get() const
+{
+    const int z = current / layer_area;
+    const int layer = current % layer_area;
+    const int y = layer / line_length;
+    const int x = layer % line_length;
+
+    return lower + Point{x, y, z};
+}
+
+BoxArea::iterator::iterator(const BoxArea &box, bool end)
+    : box(box), lower(box.lower_corner())
+{
+    current = end ? box.size_x() * box.size_y() * box.size_z() : 0;
+    layer_area = box.size_x() * box.size_y();
+    line_length = box.size_x();
+}
+
+BoxArea::iterator& BoxArea::iterator::operator++()
+{
+    current++;
+    return *this;
+}
+
+BoxArea::iterator BoxArea::iterator::operator++(int)
+{
+    iterator retval = *this;
+    ++(*this);
+    return retval;
+}
+
+bool BoxArea::iterator::operator==(iterator other) const
+{
+    return (&box == &(other.box)) && (current == other.current);
+}
+
+Point BoxArea::iterator::operator*() const
+{
+    return get();
+}

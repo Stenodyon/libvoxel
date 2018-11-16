@@ -10,8 +10,8 @@
     [ ] ProjectNode
     [ ] ErodeNode
     [ ] SquishNode
-    [ ] BoxNode
-    [ ] CubeNode
+    [x] BoxNode
+    [x] CubeNode
     [ ] SphereNode
     [ ] CylinderNode
     [ ] NoiseNode

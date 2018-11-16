@@ -129,6 +129,7 @@ beginfig(1);
         "ProjectNode",
         "ErodeNode",
         "SquishNode",
+        "BoxNode",
         "CubeNode",
         "SphereNode",
         "CylinderNode",

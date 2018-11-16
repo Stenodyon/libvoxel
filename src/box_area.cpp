@@ -18,6 +18,16 @@ BoxArea::BoxArea(const Point & corner1, const Point & corner2)
     upper = Point{upper_x, upper_y, upper_z};
 }
 
+BoxArea::iterator BoxArea::begin() const
+{
+    return iterator(*this);
+}
+
+BoxArea::iterator BoxArea::end() const
+{
+    return iterator(*this, true);
+}
+
 const Point & BoxArea::lower_corner() const
 {
     return lower;
@@ -41,6 +51,11 @@ int BoxArea::size_y() const
 int BoxArea::size_z() const
 {
     return upper[2] - lower[2] + 1;
+}
+
+int BoxArea::voxel_count() const
+{
+    return size_x() * size_y() * size_z();
 }
 
 BoxArea BoxArea::face_xl() const
@@ -121,6 +136,11 @@ BoxArea::iterator BoxArea::iterator::operator++(int)
 bool BoxArea::iterator::operator==(iterator other) const
 {
     return (&box == &(other.box)) && (current == other.current);
+}
+
+bool BoxArea::iterator::operator!=(iterator other) const
+{
+    return !(*this == other);
 }
 
 Point BoxArea::iterator::operator*() const

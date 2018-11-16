@@ -28,13 +28,14 @@ class BoxArea
                 iterator& operator++();
                 iterator operator++(int);
                 bool operator==(iterator other) const;
+                bool operator!=(iterator other) const;
                 Point operator*() const;
         };
 
     public:
         BoxArea(const Point & corner1, const Point & corner2);
-        //begin()
-        //end()
+        iterator begin() const;
+        iterator end() const;
 
         const Point & lower_corner() const;
         const Point & upper_corner() const;
@@ -42,6 +43,7 @@ class BoxArea
         int size_x() const;
         int size_y() const;
         int size_z() const;
+        int voxel_count() const;
 
         BoxArea face_xl() const;
         BoxArea face_xu() const;

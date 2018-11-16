@@ -108,6 +108,24 @@ TEST_F(BoxAreaTest, size_3)
     EXPECT_EQ(box.size_z(), 3);
 }
 
+TEST_F(BoxAreaTest, voxel_count1)
+{
+    auto box = BoxArea{
+        {0, 0, 0},
+        {1, 2, 3}
+    };
+    ASSERT_EQ(box.voxel_count(), 2 * 3 * 4);
+}
+
+TEST_F(BoxAreaTest, voxel_count2)
+{
+    auto box = BoxArea{
+        {0, 0, 0},
+        {5, 42, 77}
+    };
+    ASSERT_EQ(box.voxel_count(), 6 * 43 * 78);
+}
+
 TEST_F(BoxAreaTest, face_xl)
 {
     auto box = BoxArea{
@@ -268,4 +286,20 @@ TEST_F(BoxAreaTest, inside)
     EXPECT_FALSE(inside.contains(upper));
     EXPECT_FALSE(inside.contains(upper - Point{1, 1, 1}));
     EXPECT_TRUE(inside.contains(upper - Point{2, 2, 2}));
+}
+
+// ============================================================================
+//   BoxArea::iterator
+// ============================================================================
+
+TEST_F(BoxAreaTest, iterator_count)
+{
+    auto corner = random_point();
+    auto box = BoxArea{corner, corner + Point{1, 2, 3}};
+    int counter = 0;
+    for (auto point : box) counter++;
+    EXPECT_EQ(box.size_x(), 2);
+    EXPECT_EQ(box.size_y(), 3);
+    EXPECT_EQ(box.size_z(), 4);
+    ASSERT_EQ(counter, box.voxel_count());
 }

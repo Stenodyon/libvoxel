@@ -216,5 +216,56 @@ TEST_F(BoxAreaTest, face_zu)
     EXPECT_EQ(face_zu.upper_corner()[2], box.upper_corner()[2]);
 }
 
-// TODO inside()
-// TODO outside()
+TEST_F(BoxAreaTest, contains)
+{
+    auto box = BoxArea{
+        {0, 0, 0},
+        {1, 2, 3}
+    };
+    EXPECT_TRUE(box.contains(Point{0, 2, 0}));
+    EXPECT_TRUE(box.contains(Point{1, 0, 3}));
+    EXPECT_FALSE(box.contains(Point{-1, 0, 3}));
+    EXPECT_FALSE(box.contains(Point{1, 2, 5}));
+}
+
+TEST_F(BoxAreaTest, outside)
+{
+    auto box = BoxArea{
+        random_point(),
+        random_point()
+    };
+    auto lower = box.lower_corner();
+    auto upper = box.upper_corner();
+    auto outside = box.outside(2);
+    EXPECT_TRUE(box.contains(lower)); // Just checking
+    EXPECT_TRUE(box.contains(upper)); // Just checking
+
+    EXPECT_TRUE(outside.contains(lower));
+    EXPECT_TRUE(outside.contains(lower - Point{2, 2, 2}));
+    EXPECT_FALSE(outside.contains(lower - Point{3, 3, 3}));
+
+    EXPECT_TRUE(outside.contains(upper));
+    EXPECT_TRUE(outside.contains(upper + Point{2, 2, 2}));
+    EXPECT_FALSE(outside.contains(upper + Point{3, 3, 3}));
+}
+
+TEST_F(BoxAreaTest, inside)
+{
+    auto box = BoxArea{
+        random_point(),
+        random_point()
+    };
+    auto lower = box.lower_corner();
+    auto upper = box.upper_corner();
+    auto inside = box.inside(2);
+    EXPECT_TRUE(box.contains(lower)); // Just checking
+    EXPECT_TRUE(box.contains(upper)); // Just checking
+
+    EXPECT_FALSE(inside.contains(lower));
+    EXPECT_FALSE(inside.contains(lower + Point{1, 1, 1}));
+    EXPECT_TRUE(inside.contains(lower + Point{2, 2, 2}));
+
+    EXPECT_FALSE(inside.contains(upper));
+    EXPECT_FALSE(inside.contains(upper - Point{1, 1, 1}));
+    EXPECT_TRUE(inside.contains(upper - Point{2, 2, 2}));
+}

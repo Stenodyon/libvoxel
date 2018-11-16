@@ -50,8 +50,10 @@ class BoxArea
         BoxArea face_zl() const;
         BoxArea face_zu() const;
 
-        BoxArea inside(int size) const;
-        BoxArea outside(int size) const;
+        bool contains(const Point & point) const;
+
+        BoxArea inside(int size = 1) const;
+        BoxArea outside(int size = 1) const;
 };
 
 #endif // BOX_AREA_HPP_

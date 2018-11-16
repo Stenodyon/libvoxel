@@ -127,3 +127,29 @@ Point BoxArea::iterator::operator*() const
 {
     return get();
 }
+
+bool BoxArea::contains(const Point & point) const
+{
+    return (point.x >= lower.x)
+        && (point.x <= upper.x)
+        && (point.y >= lower.y)
+        && (point.y <= upper.y)
+        && (point.z >= lower.z)
+        && (point.z <= upper.z);
+}
+
+BoxArea BoxArea::inside(int size) const
+{
+    return BoxArea{
+        lower + Point{size, size, size},
+        upper - Point{size, size, size},
+    };
+}
+
+BoxArea BoxArea::outside(int size) const
+{
+    return BoxArea{
+        lower - Point{size, size, size},
+        upper + Point{size, size, size},
+    };
+}

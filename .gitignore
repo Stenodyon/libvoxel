@@ -1,6 +1,6 @@
 build/
-libvoxel.so
-libvoxel.so.test
+libvoxel.a
+libvoxel.test
 vgcore.*
 
 resources/design/*

@@ -1,4 +1,4 @@
-NAME:=libvoxel.so
+NAME:=libvoxel
 
 SRC_DIR:=src/
 BUILD_DIR:=build/
@@ -10,14 +10,14 @@ LIBS=
 # -----------------------------------------------------
 
 ifeq ($(OS), WINDOWS_NT)
-    EXT=.exe
+    EXT=.lib
 else
-    EXT=
+    EXT=.a
 endif
 
 BIN:=$(NAME)$(EXT)
 BIN_DEBUG:=$(NAME).debug$(EXT)
-BIN_TEST:=$(NAME).test$(EXT)
+BIN_TEST:=$(NAME).test
 
 LEX_SRC:=$(shell find $(SRC_DIR) -type f -name '*.l')
 BISON_SRC:=$(shell find $(SRC_DIR) -type f -name '*.y')

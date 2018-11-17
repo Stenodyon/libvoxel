@@ -5,3 +5,4 @@
 #include "nodes/not_node.hpp"
 #include "nodes/or_node.hpp"
 #include "nodes/solid_node.hpp"
+#include "nodes/perlin_node.hpp"

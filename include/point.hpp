@@ -16,6 +16,9 @@ struct Vector
     Vector();
     Vector(const T &x, const T &y, const T &z);
 
+    template <typename U>
+    explicit Vector(const Vector<U>& other);
+
     Vector operator+(const Vector &other) const;
     Vector& operator+=(const Vector &other);
     Vector operator-(const Vector &other) const;
@@ -44,6 +47,15 @@ template <typename T>
 Vector<T>::Vector(const T &x, const T &y, const T &z)
     : x(x), y(y), z(z)
 {}
+
+template <typename T>
+template <typename U>
+Vector<T>::Vector(const Vector<U> &other)
+    : x(static_cast<T>(other.x)),
+      y(static_cast<T>(other.y)),
+      z(static_cast<T>(other.z))
+{
+}
 
 template <typename T>
 Vector<T> Vector<T>::operator+(const Vector<T> &other) const
@@ -173,5 +185,6 @@ struct std::hash<Vector<T>>
 
 typedef Vector<int> Point;
 typedef Vector<double> Vertex;
+typedef Vector<double> Vec3f;
 
 #endif // POINT_HPP_

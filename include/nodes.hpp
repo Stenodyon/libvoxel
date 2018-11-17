@@ -7,3 +7,4 @@
 #include "nodes/solid_node.hpp"
 #include "nodes/perlin_node.hpp"
 #include "nodes/squish_node.hpp"
+#include "nodes/erode_node.hpp"

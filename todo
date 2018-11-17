@@ -12,7 +12,8 @@ Nodes
     [ ] ClampNode
     [ ] FillNode
     [ ] ProjectNode
-    [ ] ErodeNode
+    [x] ErodeNode
+    [ ] DilateNode
     [x] SquishNode
     [x] BoxNode
     [x] CubeNode

@@ -159,5 +159,6 @@ bool Vector<T>::operator!=(const Vector &other) const
 // ============================================================================
 
 typedef Vector<int> Point;
+typedef Vector<double> Vertex;
 
 #endif // POINT_HPP_

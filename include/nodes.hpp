@@ -9,3 +9,4 @@
 #include "nodes/squish_node.hpp"
 #include "nodes/erode_node.hpp"
 #include "nodes/dilate_node.hpp"
+#include "nodes/buffer_node.hpp"

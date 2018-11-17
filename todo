@@ -1,3 +1,4 @@
+[ ] Graph Management
 [ ] Mesh exporter
 [/] Vox exporter
 
@@ -29,4 +30,4 @@ Nodes
     [ ] RotateNode
     [ ] ScaleNode
     [ ] OverlayNode
-    [ ] BufferNode
+    [x] BufferNode

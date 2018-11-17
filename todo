@@ -13,7 +13,7 @@ Nodes
     [ ] FillNode
     [ ] ProjectNode
     [ ] ErodeNode
-    [ ] SquishNode
+    [x] SquishNode
     [x] BoxNode
     [x] CubeNode
     [ ] SphereNode

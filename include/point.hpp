@@ -19,19 +19,28 @@ struct Vector
     template <typename U>
     explicit Vector(const Vector<U>& other);
 
-    Vector operator+(const Vector &other) const;
-    Vector& operator+=(const Vector &other);
-    Vector operator-(const Vector &other) const;
-    Vector& operator-=(const Vector &other);
+    template <typename U>
+    auto operator+(const Vector<U> &other) const;
+    template <typename U>
+    Vector& operator+=(const Vector<U> &other);
+    template <typename U>
+    auto operator-(const Vector<U> &other) const;
+    template <typename U>
+    Vector& operator-=(const Vector<U> &other);
 
     template <typename V>
-    Vector operator*(const V &scalar) const;
+    auto operator*(const V &scalar) const;
     template <typename V>
     Vector& operator*=(const V &scalar);
     template <typename V>
-    Vector operator/(const V &scalar) const;
+    auto operator/(const V &scalar) const;
     template <typename V>
     Vector& operator/=(const V &scalar);
+
+    template <typename U>
+    auto operator&(const Vector<U> &other) const;
+    template <typename U>
+    Vector& operator&(const Vector<U> &other);
 
     T& operator[](const int &index);
     const T& operator[](const int &index) const;
@@ -58,13 +67,19 @@ Vector<T>::Vector(const Vector<U> &other)
 }
 
 template <typename T>
-Vector<T> Vector<T>::operator+(const Vector<T> &other) const
+template <typename U>
+auto Vector<T>::operator+(const Vector<U> &other) const
 {
-    return {x + other.x, y + other.y, z + other.z};
+    return Vector<decltype(x + other.x)>{
+        x + other.x,
+        y + other.y,
+        z + other.z
+    };
 }
 
 template <typename T>
-Vector<T>& Vector<T>::operator+=(const Vector<T> &other)
+template <typename U>
+Vector<T>& Vector<T>::operator+=(const Vector<U> &other)
 {
     x += other.x;
     y += other.y;
@@ -73,13 +88,19 @@ Vector<T>& Vector<T>::operator+=(const Vector<T> &other)
 }
 
 template <typename T>
-Vector<T> Vector<T>::operator-(const Vector<T> &other) const
+template <typename U>
+auto Vector<T>::operator-(const Vector<U> &other) const
 {
-    return {x - other.x, y - other.y, z - other.z};
+    return Vector<decltype(x - other.x)>{
+        x - other.x,
+        y - other.y,
+        z - other.z
+    };
 }
 
 template <typename T>
-Vector<T>& Vector<T>::operator-=(const Vector<T> &other)
+template <typename U>
+Vector<T>& Vector<T>::operator-=(const Vector<U> &other)
 {
     x -= other.x;
     y -= other.y;
@@ -89,9 +110,13 @@ Vector<T>& Vector<T>::operator-=(const Vector<T> &other)
 
 template <typename T>
 template <typename V>
-Vector<T> Vector<T>::operator*(const V &scalar) const
+auto Vector<T>::operator*(const V &scalar) const
 {
-    return {x * scalar, y * scalar, z * scalar};
+    return Vector<decltype(x * scalar)>{
+        x * scalar,
+        y * scalar,
+        z * scalar
+    };
 }
 
 template <typename T>
@@ -106,9 +131,13 @@ Vector<T>& Vector<T>::operator*=(const V &scalar)
 
 template <typename T>
 template <typename V>
-Vector<T> Vector<T>::operator/(const V &scalar) const
+auto Vector<T>::operator/(const V &scalar) const
 {
-    return {x / scalar, y / scalar, z / scalar};
+    return Vector<decltype(x / scalar)>{
+        x / scalar,
+        y / scalar,
+        z / scalar
+    };
 }
 
 template <typename T>
@@ -118,6 +147,27 @@ Vector<T>& Vector<T>::operator/=(const V &scalar)
     x /= scalar;
     y /= scalar;
     z /= scalar;
+    return *this;
+}
+
+template <typename T>
+template <typename U>
+auto Vector<T>::operator&(const Vector<U> &other) const
+{
+    return Vector<decltype(x * other.x)>{
+        x * other.x,
+        y * other.y,
+        z * other.z
+    };
+}
+
+template <typename T>
+template <typename U>
+Vector<T>& Vector<T>::operator&(const Vector<U> &other)
+{
+    x *= other.x;
+    y *= other.y;
+    z *= other.z;
     return *this;
 }
 

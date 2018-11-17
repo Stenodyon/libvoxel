@@ -156,6 +156,19 @@ bool Vector<T>::operator!=(const Vector &other) const
     return !(*this == other);
 }
 
+template <typename T>
+struct std::hash<Vector<T>>
+{
+    std::size_t operator()(const Vector<T> &vec) const
+    {
+        std::size_t seed = 3;
+        seed ^= vec.x + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+        seed ^= vec.y + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+        seed ^= vec.z + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+        return seed;
+    }
+};
+
 // ============================================================================
 
 typedef Vector<int> Point;

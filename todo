@@ -1,7 +1,8 @@
 [ ] Mesh exporter
-[ ] Vox exporter
+[/] Vox exporter
 
 Nodes
+    [x] PerlinNode
     [x] SolidNode
     [x] NOTNode
     [x] ANDNode

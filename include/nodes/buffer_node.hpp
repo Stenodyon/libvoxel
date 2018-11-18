@@ -14,7 +14,7 @@ class BufferNode : public Node<T>
         std::unordered_map<Point, T> buffer;
 
     public:
-        BufferNode(Node<T> *input);
+        explicit BufferNode(Node<T> *input);
 
         T get_voxel(const Point &pos) override;
 };

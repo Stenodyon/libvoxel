@@ -1,4 +1,5 @@
 #include <utility>
+#include <algorithm>
 
 #include "box_area.hpp"
 
@@ -172,4 +173,39 @@ BoxArea BoxArea::outside(int size) const
         lower - Point{size, size, size},
         upper + Point{size, size, size},
     };
+}
+
+std::vector<BoxArea> BoxArea::dice(int max_x, int max_y, int max_z) const
+{
+    int sizex = size_x();
+    int sizey = size_y();
+    int sizez = size_z();
+    int count_x = (sizex + max_x - 1) / max_x;
+    int count_y = (sizey + max_y - 1) / max_y;
+    int count_z = (sizez + max_z - 1) / max_z;
+
+    std::vector<BoxArea> diced;
+    diced.reserve(count_x * count_y * count_z);
+    for (int dice_x = 0; dice_x < count_x; dice_x++)
+    {
+        int subsize_x = std::min(sizex - dice_x * max_x, max_x);
+        for (int dice_y = 0; dice_y < count_y; dice_y++)
+        {
+            int subsize_y = std::min(sizey - dice_y * max_y, max_y);
+            for (int dice_z = 0; dice_z < count_z; dice_z++)
+            {
+                int subsize_z = std::min(sizez - dice_z * max_z, max_z);
+                auto base = Point{
+                    dice_x * max_x,
+                    dice_y * max_y,
+                    dice_z * max_z,
+                };
+                diced.push_back({
+                        base,
+                        base + Point{subsize_x, subsize_y, subsize_z}
+                });
+            }
+        }
+    }
+    return diced;
 }

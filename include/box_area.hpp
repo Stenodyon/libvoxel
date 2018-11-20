@@ -2,6 +2,7 @@
 #define BOX_AREA_HPP_
 
 #include <iterator>
+#include <vector>
 
 #include "point.hpp"
 
@@ -56,6 +57,8 @@ class BoxArea
 
         BoxArea inside(int size = 1) const;
         BoxArea outside(int size = 1) const;
+
+        std::vector<BoxArea> dice(int max_x, int max_y, int max_z) const;
 };
 
 #endif // BOX_AREA_HPP_

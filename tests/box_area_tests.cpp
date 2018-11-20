@@ -288,6 +288,32 @@ TEST_F(BoxAreaTest, inside)
     EXPECT_TRUE(inside.contains(upper - Point{2, 2, 2}));
 }
 
+TEST_F(BoxAreaTest, dice1)
+{
+    auto box = BoxArea{
+        {0, 0, 0},
+        {1, 2, 3}
+    };
+    auto dices = box.dice(1, 1, 1);
+    EXPECT_EQ(dices.size(), box.voxel_count());
+}
+
+TEST_F(BoxAreaTest, dice2)
+{
+    auto box = BoxArea{
+        {0, 0, 0},
+        {9, 9, 9}
+    };
+    {
+        auto dices = box.dice(5, 5, 5);
+        EXPECT_EQ(dices.size(), 8);
+    }
+    {
+        auto dices = box.dice(4, 4, 4);
+        EXPECT_EQ(dices.size(), 27);
+    }
+}
+
 // ============================================================================
 //   BoxArea::iterator
 // ============================================================================

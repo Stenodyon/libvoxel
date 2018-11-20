@@ -200,10 +200,8 @@ std::vector<BoxArea> BoxArea::dice(int max_x, int max_y, int max_z) const
                     dice_y * max_y,
                     dice_z * max_z,
                 };
-                diced.push_back({
-                        base,
-                        base + Point{subsize_x, subsize_y, subsize_z}
-                });
+                auto subsize = Point{subsize_x, subsize_y, subsize_z};
+                diced.push_back({base, base + subsize});
             }
         }
     }

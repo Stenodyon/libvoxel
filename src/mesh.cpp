@@ -23,6 +23,7 @@ Mesh::Mesh(std::vector<Vertex> vertices,
 #endif
 }
 
+#if 0
 Mesh Mesh::FromNode(Node<bool> *root, BoxArea area)
 {
     // TODO Add some limits maybe?
@@ -32,3 +33,4 @@ Mesh Mesh::FromNode(Node<bool> *root, BoxArea area)
         " mesh" << std::endl;
     return Mesh();
 }
+#endif

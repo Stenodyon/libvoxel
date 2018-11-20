@@ -21,9 +21,9 @@ void export_vox_color(
     main.add_child(&size);
     main.add_child(&xyzi);
 
+    auto rgba = RiffRGBA();
     if (palette != nullptr)
     {
-        auto rgba = RiffRGBA();
         rgba.set_palette(*palette);
         main.add_child(&rgba);
     }

@@ -114,10 +114,10 @@ void RiffRGBA::set_color(uint8_t color_id,
         uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
     palette[color_id] =
-        ((uint32_t)r << 24) +
-        ((uint32_t)g << 16) +
-        ((uint32_t)b << 8) +
-        a;
+        ((uint32_t)a << 24) +
+        ((uint32_t)b << 16) +
+        ((uint32_t)g << 8) +
+        r;
 }
 
 void RiffRGBA::set_palette(const VoxPalette &new_palette)

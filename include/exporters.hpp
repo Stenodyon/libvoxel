@@ -20,4 +20,10 @@ void export_vox_color(
         const BoxArea &area,
         const std::string &filename);
 
+void export_vox(
+        Node<uint8_t> *root,
+        const VoxPalette *palette,
+        const BoxArea &area,
+        const std::string &filename);
+
 #endif // EXPORTERS_HPP_

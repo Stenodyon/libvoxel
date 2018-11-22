@@ -107,7 +107,7 @@ void RiffXYZI::output_contents(std::ofstream &out) const
 
 RiffRGBA::RiffRGBA()
 {
-    palette[0] = 0x00000000;
+    palette[0] = 0x00000000; // ??
 }
 
 void RiffRGBA::set_color(uint8_t color_id,
@@ -122,8 +122,8 @@ void RiffRGBA::set_color(uint8_t color_id,
 
 void RiffRGBA::set_palette(const VoxPalette &new_palette)
 {
-    for (int i = 0; i < new_palette.size(); i++)
-        this->palette[i] = new_palette[i];
+    for (int i = 0; i < new_palette.colors.size(); i++)
+        this->palette[i] = new_palette.colors[i];
 }
 
 std::string RiffRGBA::get_name() const
@@ -141,6 +141,50 @@ void RiffRGBA::output_contents(std::ofstream& out) const
     for (const auto& color : palette)
         write<uint32_t>(out, color);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// MATT ///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+RiffMATT::RiffMATT()
+{
+}
+
+void RiffMATT::set_material(VoxMaterial material)
+{
+    this->material = material;
+}
+
+std::string RiffMATT::get_name() const
+{
+    return "MATT";
+}
+
+uint32_t RiffMATT::contents_size() const
+{
+    int bits_sets = 0;
+    for (auto& bit : material.property_bits)
+        if (bit == true) bits_sets++;
+
+    return 16 + 4 * bits_sets;
+}
+
+void RiffMATT::output_contents(std::ofstream& out) const
+{
+    write<uint32_t>(out, material.id);
+    write<uint32_t>(out, material.type);
+    write<float>(out, material.weight);
+
+    uint32_t bit_field = 0;
+    for (int i = 0; i < 8; i++)
+        if (material.property_bits[i]) bit_field += 1 << i;
+    write<uint32_t>(out, bit_field);
+
+    for (int i = 0; i < 7; i++)
+        if (material.property_bits[i])
+            write<float>(out, material.property_values[i]);
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // MAIN ///////////////////////////////////////////////////////////////////////

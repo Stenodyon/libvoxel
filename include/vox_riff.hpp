@@ -25,6 +25,7 @@ class RiffChunk
         std::vector<RiffChunk*> children;
 
     public:
+        virtual ~RiffChunk() = default;
         virtual std::string get_name() const = 0;
 
         void add_child(RiffChunk *child);
@@ -102,6 +103,23 @@ class RiffRGBA : public RiffChunk
         void set_color(uint8_t color_id,
                 uint8_t r, uint8_t g, uint8_t b, uint8_t a);
         void set_palette(const VoxPalette &palette);
+        std::string get_name() const override;
+        uint32_t contents_size() const override;
+        void output_contents(std::ofstream&) const override;
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// MATT ///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+class RiffMATT : public RiffChunk
+{
+    private:
+        VoxMaterial material;
+
+    public:
+        RiffMATT();
+        void set_material(VoxMaterial material);
         std::string get_name() const override;
         uint32_t contents_size() const override;
         void output_contents(std::ofstream&) const override;

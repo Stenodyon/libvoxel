@@ -3,6 +3,7 @@ usecase/
 libvoxel.a
 libvoxel.test
 vgcore.*
+compile_commands.json
 
 resources/design/*
 !resources/design/Makefile

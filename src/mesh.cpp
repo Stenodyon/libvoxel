@@ -24,13 +24,10 @@ Mesh::Mesh(std::vector<Vertex> vertices,
 }
 
 #if 0
+/*
+  Not implemented
+*/
 Mesh Mesh::FromNode(Node<bool> *root, BoxArea area)
 {
-    // TODO Add some limits maybe?
-    // TODO Implementation
-
-    std::cerr << "Warning, Mesh::FromNode not implemented, returning empty"
-        " mesh" << std::endl;
-    return Mesh();
 }
 #endif

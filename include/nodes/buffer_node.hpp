@@ -6,8 +6,14 @@
 #include "node.hpp"
 #include "point.hpp"
 
+class Buffer
+{
+    public:
+        virtual void reset() = 0;
+};
+
 template <typename T>
-class BufferNode : public Node<T>
+class BufferNode : public Node<T>, Buffer
 {
     private:
         Node<T> *input;
@@ -17,6 +23,8 @@ class BufferNode : public Node<T>
         explicit BufferNode(Node<T> *input);
 
         T get_voxel(const Point &pos) override;
+
+        void reset() override;
 };
 
 template <typename T>
@@ -39,6 +47,12 @@ T BufferNode<T>::get_voxel(const Point &pos)
         buffer.insert({pos, value});
         return value;
     }
+}
+
+template <typename T>
+void BufferNode<T>::reset()
+{
+    this->buffer.clear();
 }
 
 #endif // BUFFER_NODE_HPP_

@@ -3,6 +3,8 @@
 [/] Vox exporter
 // Not happy with the exporters
 
+[ ] Documentation
+
 // A ? means I don't remember what the node is supposed to do
 Nodes
     [x] PerlinNode

@@ -7,15 +7,19 @@
 
 #include "graph_node.hpp"
 #include "nodes/buffer_node.hpp"
+#include "memory_arena.hpp"
+
+#define NODE_ARENA_SIZE 65536
 
 class Graph
 {
     private:
-        std::vector<std::unique_ptr<GraphNode>> nodes;
+        MemoryArena nodeArena;
+        std::vector<GraphNode*> nodes;
         std::vector<Buffer*> buffers;
 
     public:
-        Graph() {}
+        Graph();
 
         template <typename NodeType, typename ...Args>
         NodeType * add(Args && ...args);
@@ -29,8 +33,9 @@ class Graph
 template <typename NodeType, typename ...Args>
 NodeType * Graph::add(Args && ...args)
 {
-    auto node = new NodeType(std::forward<Args>(args)...);
-    nodes.emplace_back(node);
+    auto location = nodeArena.alloc(sizeof(NodeType));
+    auto node = new(location) NodeType(std::forward<Args>(args)...);
+    nodes.push_back(node);
     if (auto buffer = dynamic_cast<Buffer*>(node); buffer != nullptr)
         buffers.push_back(buffer);
     return node;

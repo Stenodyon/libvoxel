@@ -1,7 +1,9 @@
 [X] Graph Management
-[X] Mesh exporter
+[/] Mesh exporter
 [/] Vox exporter
+// Not happy with the exporters
 
+// A ? means I don't remember what the node is supposed to do
 Nodes
     [x] PerlinNode
     [x] SolidNode
@@ -9,18 +11,18 @@ Nodes
     [x] ANDNode
     [x] ORNode
     [x] MaskNode
-    [ ] MultiplyNode
-    [ ] ClampNode
-    [ ] FillNode
-    [ ] ProjectNode
+    [x] MultiplyNode
+    [x] ClampNode
+    [ ] FillNode ?
+    [ ] ProjectNode ?
     [x] ErodeNode
     [x] DilateNode
     [x] SquishNode
     [x] BoxNode
     [x] CubeNode
-    [ ] SphereNode
+    [x] SphereNode
     [ ] CylinderNode
-    [ ] NoiseNode
+    [ ] NoiseNode ? already have PerlinNode
     [ ] FlipNode
     [ ] SymmetryNode
     [ ] DisplaceNode

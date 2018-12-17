@@ -10,3 +10,6 @@
 #include "nodes/erode_node.hpp"
 #include "nodes/dilate_node.hpp"
 #include "nodes/buffer_node.hpp"
+#include "nodes/multiply_node.hpp"
+#include "nodes/clamp_node.hpp"
+#include "nodes/sphere_node.hpp"

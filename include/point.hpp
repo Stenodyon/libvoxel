@@ -2,6 +2,7 @@
 #define POINT_HPP_
 
 #include <iostream>
+#include <cmath>
 
 template <typename T>
 struct Vector
@@ -47,6 +48,9 @@ struct Vector
 
     bool operator==(const Vector &other) const;
     bool operator!=(const Vector &other) const;
+
+    double norm() const;
+    double norm_sq() const;
 };
 
 template <typename T>
@@ -216,6 +220,21 @@ template <typename T>
 bool Vector<T>::operator!=(const Vector &other) const
 {
     return !(*this == other);
+}
+
+template <typename T>
+double Vector<T>::norm() const
+{
+    return std::sqrt(this->norm_sq());
+}
+
+template <typename T>
+double Vector<T>::norm_sq() const
+{
+    const double dx = (double)x;
+    const double dy = (double)y;
+    const double dz = (double)z;
+    return dx * dx + dy * dy + dz * dz;
 }
 
 template <typename T>

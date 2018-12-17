@@ -29,9 +29,9 @@ class Graph
 template <typename NodeType, typename ...Args>
 NodeType * Graph::add(Args && ...args)
 {
-    auto node = new NodeType(std::forward(args...));
-    nodes.push_back(node);
-    if (auto buffer = dynamic_cast<Buffer*>(node); buffer)
+    auto node = new NodeType(std::forward<Args>(args)...);
+    nodes.emplace_back(node);
+    if (auto buffer = dynamic_cast<Buffer*>(node); buffer != nullptr)
         buffers.push_back(buffer);
     return node;
 }
